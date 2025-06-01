@@ -15,11 +15,11 @@ key="{gpg pubkey in local keyring}"
 #Ciphertext name
 dBakName=$(date +"laptop-%m-%d.tar.gpg")
 
-#results start empty
-res=""
+#results assume failure
+res="Local:️❌ "
 
 #Tar and encrypt document backup
-sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res=$res"Local:️✅ "
+sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
 
 #detect and copy to sd card
 if [ -d $rDriv ]; then
