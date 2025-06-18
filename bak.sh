@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #Local copy
 dir="{directory}"
@@ -28,6 +28,7 @@ else
 	res=$res"SD:❌ "
 fi
 
-#To add: detect when a dedicated sym-encrypted drive is attatched. Rsync VM files if detected.
+date | sudo tee -a /var/log/backupUtility.log
+echo $res | sudo tee -a /var/log/backupUtility.log
 
-echo $res
+#To add: detect when a dedicated sym-encrypted drive is attatched. Rsync VM files if detected.
