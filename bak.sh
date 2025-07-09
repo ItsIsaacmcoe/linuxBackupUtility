@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if ! sudo -v; then
+    echo "Failed to get sudo access. Exiting."
+    exit 1
+fi
+
 #Local copy
 dir="{directory}"
 
@@ -30,5 +35,3 @@ fi
 
 date | sudo tee -a /var/log/backupUtility.log
 echo $res | sudo tee -a /var/log/backupUtility.log
-
-#To add: detect when a dedicated sym-encrypted drive is attatched. Rsync VM files if detected.
