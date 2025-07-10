@@ -1,5 +1,6 @@
 #!/bin/sh
 
+#Check for superuser privileges
 if ! sudo -v; then
     echo "Failed to get sudo access. Exiting."
     exit 1
@@ -23,8 +24,14 @@ dBakName=$(date +"laptop-%m-%d.tar.gpg")
 #results assume failure
 res="Local:️❌ "
 
-#Tar and encrypt document backup
-sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
+#check for presence backup list to prevent error on tar failure
+if [ -f $bList ]; then
+	#Tar and encrypt document backup
+	sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
+else
+	echo 'File list not found. Exiting'
+	exit 1
+fi
 
 #detect and copy to sd card
 if [ -d $rDriv ]; then
@@ -33,5 +40,4 @@ else
 	res=$res"SD:❌ "
 fi
 
-date | sudo tee -a /var/log/backupUtility.log
-echo $res | sudo tee -a /var/log/backupUtility.log
+(date; echo $res) | sudo tee -a /var/log/backupUtility.log
