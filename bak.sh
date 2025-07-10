@@ -24,7 +24,7 @@ dBakName=$(date +"laptop-%m-%d.tar.gpg")
 #results assume failure
 res="Local:️❌ "
 
-#check for presence backup list to prevent error on tar failure
+#check for presence of backup list to prevent error on tar failure
 if [ -f $bList ]; then
 	#Tar and encrypt document backup
 	sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
