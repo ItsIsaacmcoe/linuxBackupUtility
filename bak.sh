@@ -1,5 +1,11 @@
 #!/bin/sh
 
+#Check for superuser privileges
+if ! sudo -v; then
+    echo "Failed to get sudo access. Exiting."
+    exit 1
+fi
+
 #Local copy
 dir="{directory}"
 
@@ -18,8 +24,14 @@ dBakName=$(date +"laptop-%m-%d.tar.gpg")
 #results assume failure
 res="Local:️❌ "
 
-#Tar and encrypt document backup
-sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
+#check for presence backup list to prevent error on tar failure
+if [ -f $bList ]; then
+	#Tar and encrypt document backup
+	sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
+else
+	echo 'File list not found. Exiting'
+	exit 1
+fi
 
 #detect and copy to sd card
 if [ -d $rDriv ]; then
@@ -28,7 +40,4 @@ else
 	res=$res"SD:❌ "
 fi
 
-date | sudo tee -a /var/log/backupUtility.log
-echo $res | sudo tee -a /var/log/backupUtility.log
-
-#To add: detect when a dedicated sym-encrypted drive is attatched. Rsync VM files if detected.
+(date; echo $res) | sudo tee -a /var/log/backupUtility.log
