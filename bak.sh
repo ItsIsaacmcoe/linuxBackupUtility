@@ -1,39 +1,26 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-#Check for superuser privileges
-if ! sudo -v; then
-    echo "Failed to get sudo access. Exiting."
-    exit 1
+#exit on command failure, undefined var and make pipeline exit codes equal to any failure
+set -euo pipefail
+
+#source variable from config
+source bak.cfg
+
+#create local backup directory if needed
+if [ ! -d $dir ]; then
+	mkdir $dir
 fi
 
-#Local copy
-dir="{directory}"
-
-#Flash storage copy
-rDriv="{directory}"
-
-#Target file list
-bList="{.txt}"
-
-#Pubkey
-key="{gpg pubkey in local keyring}"
-
-#Ciphertext name
-dBakName=$(date +"laptop-%m-%d.tar.gpg")
-
-#results assume failure
-res="Local:️❌ "
-
-#check for presence of backup list to prevent error on tar failure
-if [ -f $bList ]; then
-	#Tar and encrypt document backup
-	sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" && res="Local:️✅ "
+#Try local Backup, remove empty output on failure
+if sudo tar -zcpC / -T $bList | gpg --trust-model always --yes -er $key > "$dir/$dBakName" ; then
+	res="Local:️✅ "
 else
-	echo 'File list not found. Exiting'
+	rm $dir/$dBakName
+	echo "Local:❌ "
 	exit 1
 fi
 
-#detect and copy to sd card
+#detect and copy to sd card, make modular
 if [ -d $rDriv ]; then
 	cp "$dir/$dBakName" "$rDriv/Backups/$dBakName" && res=$res"SD:️✅ "
 else
