@@ -1,15 +1,30 @@
-# linuxBackupUtility
+# Linux Backup Utility
 
-#### Compresses, Encrypts and stores a desired list of files in two locations. Written to acheive the simplest possible solution.
+This script creates an encrypted tar system backup from a list of files and optionally copies it to additional directories.
 
-### Use by changing the following variables to your desired values:
+## Requirements
 
-	dir: Directory where the local encrypted backup will be stored.
+*   `Bash`
+*   `tar`
+*   `gpg`
+*   `sudo`
 
-	rDriv: Aditional backup location
+## Configuration
 
-	bList: Path to a text file listing files/directories to back up (one per line).
+The script relies on the configuration file `backList.cfg` to define backup settings. **You *must* configure this file before running the script.**
 
-	key: GPG public key identifier (must exist in your local keyring) for encryption.
+*   `lDir`: Local backup destination directory.
+*   `bList`: File listing files to back up (one entry per line).
+*   `key`: Public GPG key for encryption.
+*   `rDirs`: (Optional) Array of additional directories to copy the backup to.
 
-### Users may also wish to change the value of dBakName to their desired output file name
+## Usage
+
+1.  **Configure `backList.cfg`:** Edit the file with your paths and key.
+2.  **Run the Script:** Execute with `sudo` privileges
+
+## Notes
+
+*   This is a basic backup utility.
+*   Test the backup process regularly.
+*   Requires `sudo` privileges.
