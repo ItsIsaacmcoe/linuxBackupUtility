@@ -11,7 +11,7 @@ This script creates an encrypted tar system backup from a list of files and opti
 
 ## Configuration
 
-The script relies on the configuration file `backList.cfg` to define backup settings. **You *must* configure this file before running the script.**
+The script relies on the configuration file `bak.cfg` to define backup settings. **You *must* configure this file before running the script.**
 
 *   `lDir`: Local backup destination directory.
 *   `bList`: File listing files to back up (one entry per line).
@@ -20,11 +20,10 @@ The script relies on the configuration file `backList.cfg` to define backup sett
 
 ## Usage
 
-1.  **Configure `backList.cfg`:** Edit the file with your paths and key.
+1.  **Configure `bak.cfg`:** Edit the file with your paths and key.
 2.  **Run the Script:** Execute with `sudo` privileges
 
 ## Notes
 
-*   This is a basic backup utility.
 *   Test the backup process regularly.
 *   Requires `sudo` privileges.
