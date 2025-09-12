@@ -4,8 +4,9 @@
 set -euo pipefail
 
 #Source variables
-source backList.cfg
+source realbak.cfg
 
+#Check for local destination directory
 if [ $lDir = "/path/to/primary/backup/directory/" ]; then
 	echo 'Configure backList.cfg (replace placeholders)'
 	exit 1
@@ -25,7 +26,7 @@ else
 	exit 1
 fi
 
-#Copy local Backup to aditional directories
+#Copy local Backup to additional directories
 for rpath in ${rDirs[@]}; do
 	if [ -d $rpath ]; then
 		cp "$lDir$cName" "$rpath$cName" && res=$res$rpath": ✅ "
