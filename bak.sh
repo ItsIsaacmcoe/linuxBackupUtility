@@ -3,10 +3,13 @@
 #Exit on command fail, undefined variables, pipeline error
 set -euo pipefail
 
-#Source variables
-source bak.cfg
+#Source custom variables
+source "$(dirname "$0")/cfg/bak.cfg"
 
-#Check for local destination directory
+#Ciphertext name
+cName=$(date +"$HOSTNAME-%m-%d.tar.gpg")
+
+#Check that config file has been edited
 if [ $lDir = "/path/to/primary/backup/directory/" ]; then
 	echo 'Configure bak.cfg (replace placeholders)'
 	exit 1
