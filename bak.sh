@@ -4,12 +4,12 @@
 set -euo pipefail
 
 #Source custom variables
-source bak.cfg
+source "$(dirname "$0")/cfg/bak.cfg"
 
 #Ciphertext name
 cName=$(date +"$HOSTNAME-%m-%d.tar.gpg")
 
-#Check for local destination directory
+#Check that config file has been edited
 if [ $lDir = "/path/to/primary/backup/directory/" ]; then
 	echo 'Configure bak.cfg (replace placeholders)'
 	exit 1
