@@ -3,8 +3,11 @@
 #Exit on command fail, undefined variables, pipeline error
 set -euo pipefail
 
-#Source variables
+#Source custom variables
 source bak.cfg
+
+#Ciphertext name
+cName=$(date +"$HOSTNAME-%m-%d.tar.gpg")
 
 #Check for local destination directory
 if [ $lDir = "/path/to/primary/backup/directory/" ]; then
